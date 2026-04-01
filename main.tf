@@ -99,6 +99,11 @@ data "aws_ami" "ubuntu_2404" {
     values = ["x86_64"]
   }
 }
+# Налаштування SSH ключа
+resource "aws_key_pair" "my_key" {
+  key_name   = "${var.prefix}-key"
+  public_key = file("~/.ssh/id_ed25519.pub")
+}
 # 6. Розгортання EC2 Інстансу
 resource "aws_instance" "web_server" {
   ami           = data.aws_ami.ubuntu_2404.id
@@ -106,6 +111,8 @@ resource "aws_instance" "web_server" {
   subnet_id     = aws_subnet.subnet_a.id
 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
+
+  key_name      = aws_key_pair.my_key.key_name
   # Передача завантажувального скрипта з підстановкою змінних через templatefile
   user_data = templatefile("${path.module}/bootstrap.sh", {
     WEB_PORT    = var.web_port
