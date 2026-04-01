@@ -9,3 +9,7 @@ crash.log
 Variables files containing sensitive data
 *.tfvars
 .env
+
+# Local SSH Keys
+lab3-key
+lab3-key.pub

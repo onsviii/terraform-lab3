@@ -102,7 +102,7 @@ data "aws_ami" "ubuntu_2404" {
 # Налаштування SSH ключа
 resource "aws_key_pair" "my_key" {
   key_name   = "${var.prefix}-key"
-  public_key = file("~/.ssh/id_ed25519.pub")
+  public_key = file("lab3-key.pub")
 }
 # 6. Розгортання EC2 Інстансу
 resource "aws_instance" "web_server" {
